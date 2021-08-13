@@ -1,7 +1,7 @@
 <template>
     <div id='app'>
         <div class='searchContainer'>
-            <input v-model="searchKey" placeholder='Boost'>
+            <input v-model="searchKey" placeholder='Boost' @keyup.enter='sendRequest'>
             <button @click ="sendRequest">Send Request</button>
         </div>
         <ul>   
@@ -31,6 +31,11 @@ export default {
             },
             srcCreate (ref){
                 return `https://media.endclothing.com/media/f_auto,q_auto:eco,w_50,h_50/prodmedia/media/catalog/product/${ref}`
+            },
+            clickPress(event){
+                if (event.keyCode == 13){
+                    sendRequest();
+                }
             }
         }
 };
@@ -56,6 +61,7 @@ img {
     width: 40px;
     border: 2px solid black;
     margin-right: 3px;
+    border-radius: 5px;
 }
 ul {
     margin-left: 0;
