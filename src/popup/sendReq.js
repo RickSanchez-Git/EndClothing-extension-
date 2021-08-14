@@ -37,7 +37,12 @@ export function sendReq(searchKey){
           pushVariable = [];
         }
         console.log(mas);
-        return mas;
+        if (mas.length === 0){
+          mas = [['no results', ['','','']]];
+          return mas;
+        } else {
+          return mas;
+        }
       })
 }
 
