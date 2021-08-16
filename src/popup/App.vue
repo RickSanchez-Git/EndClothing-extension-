@@ -4,11 +4,12 @@
             <input v-model="searchKey" placeholder='Boost' @keyup.enter='sendRequest'>
             <button @click ="sendRequest">Send Request</button>
         </div>
-        <ul>   
+        <ul v-if="isFounded">   
             <li v-for='item in this.$store.state.goods' @click='hrefTranslation(item[1][1])'>
                 <p class='contentContainer'><img :src='srcCreate(item[1][2])'> {{item[0]}} ({{item[1][0]}}) </p> 
             </li>
         </ul>
+        <div v-else>No results</div>
     </div>
 </template>
 
@@ -18,13 +19,19 @@ import { sendReq } from "./sendReq";
 export default {
         data() {
             return {
-                searchKey: ''
+                searchKey: '',
+                isFounded: true
             }
         },
         methods: {
             async sendRequest (){
                 let ans = await sendReq(this.searchKey);
                 this.$store.dispatch('updateTitle', ans);
+                if (ans.length == 0){
+                    this.isFounded = false;
+                } else {
+                    this.isFounded = true;
+                }
             },
             hrefTranslation (ref){
                 window.open(`https://www.endclothing.com/ru/${ref}.html?fresh=true`);
@@ -32,7 +39,7 @@ export default {
             srcCreate (ref){
                 return `https://media.endclothing.com/media/f_auto,q_auto:eco,w_50,h_50/prodmedia/media/catalog/product/${ref}`
             },
-            clickPress(event){
+            clickPress(event){                      //Enter-key pressing
                 if (event.keyCode == 13){
                     sendRequest();
                 }

@@ -3,6 +3,8 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
+//store-file: goods - mas for results of search
+
 export default new Vuex.Store({
     state: {
         goods: []
